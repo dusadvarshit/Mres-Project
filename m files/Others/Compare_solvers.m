@@ -6,7 +6,7 @@ clc
 %model = changeRxnBounds(model,'EX_glc(e)',-10,'l');
 %model = changeRxnBounds(model,'EX_o2(e)',-20,'l');
 [sampleStruct,mixedFrac] = gpSampler(model,5000,[],120);
-clc
+mf_glpk = mixedFrac;
 v_glpk = zeros(3788,1);
 for i = 1:3788
 v_glpk(i) = mean(sampleStruct.points(i,:));
@@ -17,14 +17,16 @@ clc
 [sampleStruct,mixedFrac] = gpSampler(model,5000,[],120);
 clc
 v_cplex = zeros(3788,1);
+
+mf_cplex = mixedFrac;
 for i = 1:3788
 v_cplex(i) = mean(sampleStruct.points(i,:));
 end
-clc
+
 changeCobraSolver('Gurobi','all')
-clc
+
 [sampleStruct,mixedFrac] = gpSampler(model,5000,[],120);
-clc
+mf_gurobi = mixedFrac;
 v_gurobi = zeros(3788,1);
 for i = 1:3788
 v_gurobi(i) = mean(sampleStruct.points(i,:));
