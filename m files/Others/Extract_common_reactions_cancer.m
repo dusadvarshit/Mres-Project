@@ -5,7 +5,7 @@ clear all;
 % Get the filename and its path by browsing through dialog box
 
 
-% AEROBIC
+% ANAEROBIC
 folder = dir(uigetdir());
 
 all_models = cell(60,1);
