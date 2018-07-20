@@ -1,4 +1,4 @@
-%This m files compare the result of biomass from methotrexate knockdown
+%This m files compare the result of biomass from allopurinol knockdown
 %simulation and without it.
 
 folder_noDrug = dir(uigetdir());
@@ -8,6 +8,7 @@ for i=3:62
 all_models_noDrug{i-2} = strcat(folder_noDrug(i).folder,'\',folder_noDrug(i).name);
 end
 
+% However, here metho is symbolic of drug and refers to drug allopurinol
 folder_metho = dir(uigetdir());
 
 all_models_metho = cell(60,1);
@@ -41,7 +42,7 @@ end
 destination_path = "C:\Users\dusad\Downloads\M.res Systems and Synthetic Biology\Projects\Diego+Keun\Project work\Cancer models\Today"
 filename = strcat("C:\Users\dusad\Downloads\M.res Systems and Synthetic Biology\Projects\Diego+Keun\Project work\Cancer models\Today",'\','Biomass_Comparison','.xlsm');
 
-xlswrite(filename,{'CellLine','NoDrug','Methotrexate','Fold change'},'Comparison','A1');
+xlswrite(filename,{'CellLine','NoDrug','Allopurinol','Fold change'},'Comparison','A1');
 xlswrite(filename,cellLine,'Comparison','A2');
 xlswrite(filename,v_noDrug,'Comparison','B2');
 xlswrite(filename,v_metho,'Comparison','C2');

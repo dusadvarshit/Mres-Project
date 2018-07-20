@@ -6,21 +6,21 @@ for i=1:length(all_models)
     load(all_models{i});
     
     % Run the biomass optimization
-    %model1 = optimizeCbModel(model, 'max');
+    model1 = optimizeCbModel(model, 'max');
     
     % Run the biomass optimization with bounds set by computational warbug study
-    temp_model = model;
-    temp_model.lb(3446) = -1;
-    temp_model.lb(968) = -20;
-    temp_model.lb(3446) = -1;
-    temp_model.lb(1372) = -10;
-    model1 = optimizeCbModel(temp_model, 'max');
+    %temp_model = model;
+    %temp_model.lb(3446) = -1;
+    %temp_model.lb(968) = -20;
+    %temp_model.lb(3446) = -1;
+    %temp_model.lb(1372) = -10;
+    %model1 = optimizeCbModel(temp_model, 'max');
     
     %Store the flux vector
     v = model1.v;
     
     %Run the MFG_cancer function
-    M = MFG_cancer(model, v); 
+    M = MFG_cancer_temp(model, v); 
     
     %Run the pagerank function
     page_rank = pagerank(M);

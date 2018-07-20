@@ -18,8 +18,8 @@ for k=1:length(folder_exl)-2
     filename = 'C:\Users\dusad\Downloads\M.res Systems and Synthetic Biology\Projects\Diego+Keun\Project work\Cancer models\Today';
     remove_mat_extension = length(folder_exl(k+2).name)-3;
     filename = strcat(filename,'\',folder_exl(k+2).name(1:remove_mat_extension),'xlsm')
-    index = find(min(page_rank_random));
-    indices = find(page_rank_random>page_rank_random(index));
+    index = find(page_rank_random==min(page_rank_random));
+    indices = find(page_rank_random>page_rank_random(index(1)));
    
     rxns_1 = {};
     rxnNames_1 = {};

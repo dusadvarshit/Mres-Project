@@ -11,8 +11,8 @@ B = (S ~= 0); %boolean version of stoichometric matrix
 A = double(B')*double(B);
 len = length(S(1,:));
 % reversibility vector
-%R = double((model.lb<0)); %[0; 0; 0; 1; 0; 0; 0; 0];
-R = double((model.rev));
+R = double((model.lb<0 & model.ub>0)); %[0; 0; 0; 1; 0; 0; 0; 0];
+%R = double((model.rev));
 r = diag(R);
 Im = eye(len,len);
 S2m_1 = [S -S];

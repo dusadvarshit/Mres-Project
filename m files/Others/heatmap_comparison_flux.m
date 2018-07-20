@@ -26,5 +26,5 @@ v1 = double(v~=0);
     
 end
 
-csvwrite("C:\Users\dusad\Downloads\M.res Systems and Synthetic Biology\Projects\Diego+Keun\Project work\Cancer models\2018.05.19\Heatmap comparisons\Aerobic\Heatmap_flux_Anaerobic.csv",angle_matrix);
+csvwrite("C:\Users\dusad\Downloads\M.res Systems and Synthetic Biology\Projects\Diego+Keun\Project work\Cancer models\2018.06.14\MFG_FHKnockout\Heatmaps\Heatmap_flux.csv",angle_matrix);
 
