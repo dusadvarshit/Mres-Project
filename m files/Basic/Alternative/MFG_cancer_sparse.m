@@ -20,7 +20,7 @@ function M = MFG_cancer_sparse(model, v)
     % reversibility vector
     % This is probably wrong method: %R = double((model.rev)); %[0; 0; 0; 1; 0; 0; 0; 0];
     %double(model.lb<0 & model.ub>0);
-    R = ones(length(model.rev),1);
+    R = ones(length(model.rxns),1);
     r = sparse(diag(R));
     Im = sparse(eye(len,len));
     S2m_1 = [S -S];

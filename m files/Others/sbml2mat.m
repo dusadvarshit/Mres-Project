@@ -7,7 +7,9 @@ list_models_1 = cell(length(folder_1)-2,1);
 for i=3:length(folder_1)
 disp(i-2);
 list_models_1{i-2} = strcat(folder_1(i).folder,'\',folder_1(i).name);
-model = readCbModel(list_models_1{i-2});
+%model = readCbModel(list_models_1{i-2});
+model = importModel(list_models_1{i-2}, false);
+
 model_name = strsplit(folder_1(i).name,'.');
 destination_path = strcat(folder_2,'\', model_name{1},'.mat');
 save(destination_path, 'model');

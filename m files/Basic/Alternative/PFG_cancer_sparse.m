@@ -20,15 +20,17 @@ S2m_2 = [Im zeros(len); zeros(len) r];
 S2m = S2m_1*S2m_2;
 
 %Production and consumption matrices
-S2m_plus = 0.5.*(abs(S2m) + S2m);
+S2m_plus = 0.5.*(abs(S2m) + S2m);   
 S2m_minus = 0.5.*(abs(S2m) - S2m);
 
 %Probabilistic flux graph
-W_plus_penrose = (pinv(diag(S2m_plus*ones(2*len,1))));
-W_minus_penrose = (pinv(diag(S2m_minus*ones(2*len,1))));
+W_plus_penrose = diag(S2m_plus*ones(2*len,1));
+W_minus_penrose = diag(S2m_minus*ones(2*len,1));
 
 n = size(S(:,1)); %Number of metabolites
 n = n(1);
 %P = (S2m_plus'*(W_plus_penrose*W_minus_penrose)*S2m_minus)/n;
-P = (W_plus_penrose*S2m_plus)'*(W_minus_penrose*S2m_minus)/n;
+%P = (W_plus_penrose*S2m_plus)'*(W_minus_penrose*S2m_minus)/n;
+P = (lsqminnorm(W_plus_penrose,S2m_plus))'*(lsqminnorm(W_minus_penrose,S2m_minus))/n;
+
 end

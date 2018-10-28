@@ -5,14 +5,15 @@
 
 folder = dir(uigetdir());
 
-all_models = cell(60,1);
-for i=3:62  
+all_models = cell(length(folder)-2,1);
+len = length(all_models);
+for i=3:len+2  
 all_models{i-2} = strcat(folder(i).folder,'\',folder(i).name);
 end
 
-Lactate_min = zeros(60,1);
-Lactate_max = zeros(60,1);
-o2_flux = zeros(60,1);
+Lactate_min = zeros(len,1);
+Lactate_max = zeros(len,1);
+o2_flux = zeros(len,1);
 
 for i =1:length(all_models)
     %Keeping count, displaying and loading model
@@ -24,9 +25,9 @@ for i =1:length(all_models)
     
     model1 = changeRxnBounds(model1,model.rxns(1372),-1,'b'); %L-Glutamine
     model1 = changeRxnBounds(model1,model.rxns(968),-5,'b'); % D-Glucose
-    model1 = changeRxnBounds(model1,model.rxns(687),0.05,'b'); %D-Lactate release
+    model1 = changeRxnBounds(model1,model.rxns(687),0.05,'b'); %D-Lactate release %0.005 <New>
 
-    o2_uptake = [-12;-11;-10;-9.5;-9;-8.5;-8;-7.5;-7;-6.5;-6;-5.5;-5;-4.5;-4;-3.5;-3];
+    o2_uptake = [-12;-11;-10;-9.5;-9;-8.5;-8;-7.5;-7;-6.5;-6;-5.5;-5;-4.5;-4;-3.5;-3;-2.5;-2;-1.5;-1;-0.5;0];
     
     Lactate_minimum = 0;
     Lactate_maximum = 0;

@@ -77,12 +77,12 @@ disp(i);
 [page_rank_5,v2m_5, M_5, rxnNameslist, subSystemslist, direction] = relevent_information(all_models_5{i});
 [page_rank_6,v2m_6, M_6, rxnNameslist, subSystemslist, direction] = relevent_information(all_models_6{i});
 
-[pr_1,indices_1] = important_reactions(page_rank_1);
-[pr_2,indices_2] = important_reactions(page_rank_2);
-[pr_3,indices_3] = important_reactions(page_rank_3);
-[pr_4,indices_4] = important_reactions(page_rank_4);
-[pr_5,indices_5] = important_reactions(page_rank_5);
-[pr_6,indices_6] = important_reactions(page_rank_6);
+[pr_1,indices_1] = important_reactions(v2m_1,page_rank_1);
+[pr_2,indices_2] = important_reactions(v2m_2,page_rank_2);
+[pr_3,indices_3] = important_reactions(v2m_3,page_rank_3);
+[pr_4,indices_4] = important_reactions(v2m_4,page_rank_4);
+[pr_5,indices_5] = important_reactions(v2m_5,page_rank_5);
+[pr_6,indices_6] = important_reactions(v2m_6,page_rank_6);
 
 percentile_1 = calculate_percentile(pr_1);
 percentile_2 = calculate_percentile(pr_2);
@@ -100,29 +100,34 @@ common_reactions_6 = intersect(indices_1,indices_6);
 index2use_control = original2common_mapping(indices_1,common_reactions_2);
 index2use_condition = original2common_mapping(indices_2,common_reactions_2);
 R_1 = corrcoef([percentile_1(index2use_control), percentile_2(index2use_condition)]);
+%R_1 = corr([percentile_1(index2use_control), percentile_2(index2use_condition)],'Type','Spearman')
 R1(i) = R_1(2,1);
 
 % Identifying right indexes in original important indices to use
 index2use_control = original2common_mapping(indices_1,common_reactions_3);
 index2use_condition = original2common_mapping(indices_3,common_reactions_3);
 R_1 = corrcoef([percentile_1(index2use_control), percentile_3(index2use_condition)]);
+%R_1 = corr([percentile_1(index2use_control), percentile_3(index2use_condition)],'Type','Spearman')
 R2(i) = R_1(2,1);
 
 % Identifying right indexes in original important indices to use
 index2use_control = original2common_mapping(indices_1,common_reactions_4);
 index2use_condition = original2common_mapping(indices_4,common_reactions_4);
 R_1 = corrcoef([percentile_1(index2use_control), percentile_4(index2use_condition)]);
+%R_1 = corr([percentile_1(index2use_control), percentile_4(index2use_condition)],'Type','Spearman')
 R3(i) = R_1(2,1);
 
 % Identifying right indexes in original important indices to use
 index2use_control = original2common_mapping(indices_1,common_reactions_5);
 index2use_condition = original2common_mapping(indices_5,common_reactions_5);
 R_1 = corrcoef([percentile_1(index2use_control), percentile_5(index2use_condition)]);
+%R_1 = corr([percentile_1(index2use_control), percentile_5(index2use_condition)],'Type','Spearman')
 R4(i) = R_1(2,1);
 
 index2use_control = original2common_mapping(indices_1,common_reactions_6);
 index2use_condition = original2common_mapping(indices_6,common_reactions_6);
 R_1 = corrcoef([percentile_1(index2use_control), percentile_6(index2use_condition)]);
+%R_1 = corr([percentile_1(index2use_control), percentile_6(index2use_condition)],'Type','Spearman')
 R5(i) = R_1(2,1);
 
 end

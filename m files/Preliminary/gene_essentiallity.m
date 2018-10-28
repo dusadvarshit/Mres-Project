@@ -12,17 +12,23 @@ end
 cellname = cell(60,1);
 essential_gene = [];
 
-for i=1:length
+for i=1:length(all_models)
     %Load the models.
     disp(i);
     disp(all_models{i});
-    load(all_models{i});
+    model = readCbModel(all_models{i});
     record = zeros(3788,1);    
+    
+    % Identify unblocked reactions
+    unblocked = setdiff(string(model.rxns),string(blockedReactions));
+    
     % Run the biomass optimization
-    for j=1:3788        
+    for j=1:length(unblocked)
         model1 = model;
-        model1.lb(j) = 0;
-        model1.ub(j) = 0;
+        %model1.lb(j) = 0; --> Poor method to change bounds
+        %model1.ub(j) = 0; --> Poor method to change bounds
+        model1 = changeRxnBounds(model1, unblocked(j), 0, 'b');
+        
         model2 = optimizeCbModel(model1, 'max');
         if model2.v(3745)<0.00001
             record(j) = 1;

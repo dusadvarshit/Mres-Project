@@ -1,0 +1,93 @@
+% File to centrality of MOMA predicted lethal reactions 
+
+% folder = dir(uigetdir());
+% 
+% all_models = cell(length(folder)-2,1);
+% for i=3:length(folder)  
+%     all_models{i-2} = strcat(folder(i).folder,'\',folder(i).name);
+% end
+
+nodenames = [1:7576]';
+nodes = nodenames;
+nodenames = cellstr(string(nodenames));
+
+page_rank_all = [];
+degree__weighted_all = [];
+degree_all = [];
+closeness_all = [];
+betweeness_all = [];
+
+%for i=1:60
+%disp(i)
+%load(all_models{i})
+
+G = digraph(M,nodenames,'OmitSelfLoops');
+H = extract_connected_subgraph(G);
+%H2G_node_label = table2array(H.Nodes);
+%H2G_node_label = str2double(string(H2G_node_label));
+
+original_node_label = return_original_node_no(H);
+
+% Centrality based analysis. Calculate centrality on entire graph.
+% Send only nodes from connected subgraph for percentile calculation.
+a = H.Nodes.Name;
+nodes2send = str2double(string(a));
+
+% Essential reactions label
+essential_rxn = moma_lethal(:,2); % In this case A498 should be identified accordingly.
+essential_rxn = essential_rxn(find(essential_rxn~=0));
+essential_rxn_label = [essential_rxn; essential_rxn+3788];
+essential_rxn_label = setdiff(intersect(nodes2send, essential_rxn_label),[3745]); % Removing biomass eqn
+
+% Degree centrality - unweighted
+deg_centrality = centrality(G,'indegree') + centrality(G,'outdegree');
+deg_percentile = zeros(7576,1);
+deg_percentile(nodes2send) = calculate_percentile(deg_centrality(nodes2send));
+
+% Degree centrality - weighted
+deg_centrality_w = centrality(G,'indegree', 'Importance',G.Edges.Weight)+centrality(G,'outdegree', 'Importance',G.Edges.Weight);
+deg_percentile_w = zeros(7576,1);
+deg_percentile_w(nodes2send) = calculate_percentile(deg_centrality_w(nodes2send));
+
+% Closeness centrality
+closeness_centrality = centrality(G,'incloseness', 'Cost',1./G.Edges.Weight)+centrality(G,'outcloseness', 'Cost',1./G.Edges.Weight);
+closeness_percentilbetweenesse = zeros(7576,1);
+closeness_percentile(nodes2send) = calculate_percentile(closeness_centrality(nodes2send));
+
+% Betweenness centrality
+betweeness_centrality = centrality(G,'betweenness', 'Cost',1./G.Edges.Weight);
+betweeness_percentile = zeros(7576,1);
+betweeness_percentile(nodes2send) = calculate_percentile(betweeness_centrality(nodes2send));
+
+% Hubs centrality
+hubs_centrality = centrality(G,'hubs','Importance',G.Edges.Weight);
+hubs_percentile = zeros(7576,1);
+hubs_percentile(nodes2send) = calculate_percentile(hubs_centrality(nodes2send));
+
+% Authorities centrality
+authorities_centrality = centrality(G,'authorities','Importance',G.Edges.Weight);
+authorities_percentile = zeros(7576,1);
+authorities_percentile(nodes2send) = calculate_percentile(authorities_centrality(nodes2send));
+
+% Pagerank
+pr = centrality(G,'pagerank','FollowProbability',0.85,'Importance',G.Edges.Weight);
+pr_percentile = zeros(7576,1);
+pr_percentile(nodes2send) = calculate_percentile(pr(nodes2send));
+
+% Katz centrality
+n = 7576;
+x0 = zeros(0,n)';
+x1 = (1/n).*ones(1,n)';
+t = 0.00001;
+eps = 1/10^t;
+iter = 0;
+alpha = 0.85;
+beta = 1;
+clc
+while (sum(abs(x0 - x1)) > eps)
+x0 = x1;
+x1 = alpha*x1*M +beta;
+iter= iter+1;
+end
+
+%end
